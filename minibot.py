@@ -1,8 +1,8 @@
 import telebot
 import wget
 import minibot_token
-
-bot = telebot.TeleBot(token, parse_mode=None) # You can set parse_mode by default. HTML or MARKDOWN
+print(minibot_token.token)
+bot = telebot.TeleBot(minibot_token.token, parse_mode=None) # You can set parse_mode by default. HTML or MARKDOWN
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
@@ -23,10 +23,6 @@ def function_name(message):
         with open(f'/home/alcohan/Documents/MiniBot/userphoto/{user_file_path}', 'wb') as new_file:
             new_file.write(downloaded_file)
     bot.reply_to(message, "Tnx! Now I have you photos 😈.")
-	    # print('photo', i)
-	    # print('file', user_file)
-	    # print('file path', user_file_path)
-# wget.download(f'https://api.telegram.org/file/bot{token}/{user_file_path}', '/home/alcohan/Documents/MiniBot/userphoto/')
 
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
