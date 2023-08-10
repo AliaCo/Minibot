@@ -1,7 +1,6 @@
 import telebot
 import wget
-
-token = "6332254442:AAFabS1P8QOWX_peDXU33MWZxJ68qNvbV4Y"
+import minibot_token
 
 bot = telebot.TeleBot(token, parse_mode=None) # You can set parse_mode by default. HTML or MARKDOWN
 
