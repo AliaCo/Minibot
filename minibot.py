@@ -6,6 +6,17 @@ user_photos_path='/home/alcohan/Documents/MiniBot/userphoto/'
 storage_photos_path='/home/alcohan/Documents/MiniBot/userphoto/photos/'
 photo_to_send='file_3.jpg'
 
+userStep = {} 
+# error handling if user isn't known yet
+# (obsolete once known users are saved to file, because all users
+#   had to use the /start command and are therefore known to the bot)
+def get_user_step(uid):
+    if uid in userStep:
+        return userStep[uid]
+    else:
+        print("User, who hasn't used \"/wanttosendbotphoto\" but send photo anyway")
+        return 0
+
 bot = telebot.TeleBot(minibot_token.token, parse_mode=None) # You can set parse_mode by default. HTML or MARKDOWN
 
 @bot.message_handler(commands=['start', 'help'])
@@ -15,9 +26,11 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['wanttosendbotphoto'])
 def send_message(message):
+	cid = message.chat.id
 	bot.reply_to(message, "Great! Than send me the photo NOW! Sorry, no presure, I'm waiting for you photo.")
+	userStep[cid] = 1 
 
-@bot.message_handler(content_types=['photo'])
+@bot.message_handler(content_types=['photo'], func=lambda message: get_user_step(message.chat.id) == 1)
 def get_foto(message):
     users_photos = [i.file_id for i in message.photo]
     for n, i in enumerate(users_photos):
@@ -27,11 +40,12 @@ def get_foto(message):
         with open(f'{user_photos_path}{user_file_path}', 'wb') as new_file:
             new_file.write(downloaded_file)
     bot.reply_to(message, "Tnx! Now I have you photos 😈.")
+    userStep[message.chat.id] = 0 # reset the users step back to 0
 
 @bot.message_handler(commands=['wanttogetphoto'])
 def send_photo(message):
-	chat_id = message.chat.id
-	bot.send_photo(chat_id=chat_id, photo=open(f'{storage_photos_path}{photo_to_send}', 'rb'))
+	cid = message.chat.id
+	bot.send_photo(chat_id=cid, photo=open(f'{storage_photos_path}{photo_to_send}', 'rb'))
 
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
