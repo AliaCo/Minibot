@@ -1,6 +1,7 @@
 import telebot
 import wget
 import minibot_token
+import model as md
 
 user_photos_path='/home/alcohan/Documents/MiniBot/userphoto/'
 storage_photos_path='/home/alcohan/Documents/MiniBot/userphoto/photos/'
@@ -44,8 +45,11 @@ def get_foto(message):
 
 @bot.message_handler(commands=['wanttogetphoto'])
 def send_photo(message):
-	cid = message.chat.id
-	bot.send_photo(chat_id=cid, photo=open(f'{storage_photos_path}{photo_to_send}', 'rb'))
+    bloha = md.EdsrModel()
+    print(bloha.result())
+    cid = message.chat.id
+    bot.send_message(chat_id=cid, text=bloha.result())
+	# bot.send_photo(chat_id=cid, photo=open(f'{storage_photos_path}{photo_to_send}', 'rb'))
 
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
