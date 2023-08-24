@@ -45,11 +45,13 @@ def get_foto(message):
 
 @bot.message_handler(commands=['wanttogetphoto'])
 def send_photo(message):
-    bloha = md.EdsrModel()
-    print(bloha.result())
+    bloha = md.Model()
+    pred = bloha.predict()
+    print(pred)
     cid = message.chat.id
-    bot.send_message(chat_id=cid, text=bloha.result())
-	# bot.send_photo(chat_id=cid, photo=open(f'{storage_photos_path}{photo_to_send}', 'rb'))
+    bot.send_photo(chat_id=cid, photo=open(pred, 'rb'))
+    # bot.send_message(chat_id=cid, text=pred)
+    # bot.send_photo(chat_id=cid, photo=open(f'{storage_photos_path}{photo_to_send}', 'rb'))
 
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
