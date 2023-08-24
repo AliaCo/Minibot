@@ -14,13 +14,15 @@ class Model:
         self.model = EdsrModel.from_pretrained('eugenesiow/edsr-base', scale=4)
         self.model = self.model.to(device)
 
-    def predict(self):
-        self.image = Image.open(requests.get(url, stream=True).raw)
+    def predict(self, path):
+        print('Prediction starts')
+        self.image = Image.open(path)
         self.image = ImageLoader.load_image(self.image).to(device)
 
         self.preds = self.model(self.image)
         ImageLoader.save_image(self.preds, '/home/alcohan/Documents/MiniBot/result/scaled_4x.png')
         self.result = '/home/alcohan/Documents/MiniBot/result/scaled_4x.png'
+        print('Prediction ready')
         return self.result
 
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
