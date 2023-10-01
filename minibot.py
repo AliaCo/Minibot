@@ -61,8 +61,6 @@ def send_photo(message):
         pred = bloha.predict(get_user_photo(message.chat.id))
         print(pred)
         bot.send_photo(chat_id=cid, photo=open(pred, 'rb'))
-    # bot.send_message(chat_id=cid, text=pred)
-    # bot.send_photo(chat_id=cid, photo=open(f'{storage_photos_path}{photo_to_send}', 'rb'))
 
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
